@@ -1,10 +1,15 @@
 <script>
-  import { fade, blur, slide, scale,fly } from "svelte/transition";
+  import { fade, blur, slide, scale, fly } from "svelte/transition";
+  import { flip } from 'svelte/animate'
   import { bounceIn } from 'svelte/easing'
   let numbers = $state([]);
 
   function addNumbers(){
     numbers.push(Math.floor(Math.random()*100));
+    numbers = numbers
+  }
+  function removeNumber(i){
+    numbers.splice(i,1)
     numbers = numbers
   }
 
@@ -16,14 +21,9 @@
     {#each numbers as number,i(number) }
       <button 
         class="element" 
-        transition:fly={{
-          delay:0,
-          duration:1000,
-          easing:bounceIn,
-          x:-100,
-          y:-500,
-          opacity:0
-        }}
+        onclick={()=>removeNumber(i)}
+        transition:fade={{duration:500}}
+        animate:flip={{ duration:500}}
       >{number}</button>
     {/each}
   </div>
