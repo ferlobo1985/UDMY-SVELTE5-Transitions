@@ -1,5 +1,6 @@
 <script>
-  import { fade, blur, slide, scale } from "svelte/transition";
+  import { fade, blur, slide, scale,fly } from "svelte/transition";
+  import { bounceIn } from 'svelte/easing'
   let numbers = $state([]);
 
   function addNumbers(){
@@ -13,7 +14,17 @@
   <h1>Numbers</h1>
   <div>
     {#each numbers as number,i(number) }
-      <button class="element" transition:scale>{number}</button>
+      <button 
+        class="element" 
+        transition:fly={{
+          delay:0,
+          duration:1000,
+          easing:bounceIn,
+          x:-100,
+          y:-500,
+          opacity:0
+        }}
+      >{number}</button>
     {/each}
   </div>
   <button class="add" onclick={addNumbers}>Add number</button>
