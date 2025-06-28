@@ -1,40 +1,29 @@
 <script>
-  import { fade, blur, slide, scale, fly } from "svelte/transition";
-  import { flip } from 'svelte/animate'
-  import { bounceIn } from 'svelte/easing'
-  let numbers = $state([]);
+  import { Tween } from "svelte/motion";
+  import { bounceIn } from "svelte/easing";
+  let value = new Tween(0);
 
-  function addNumbers(){
-    numbers.push(Math.floor(Math.random()*100));
-    numbers = numbers
+  function tweenValue(){
+    value.set(100,{ duration:1000, easing:bounceIn })
   }
-  function removeNumber(i){
-    numbers.splice(i,1)
-    numbers = numbers
-  }
+
 
 </script>
 
 <div class="container">
-  <h1>Numbers</h1>
-  <div>
-    {#each numbers as number,i(number) }
-      <button 
-        class="element" 
-        onclick={()=>removeNumber(i)}
-        transition:fade={{duration:500}}
-        animate:flip={{ duration:500}}
-      >{number}</button>
-    {/each}
+  <div
+    class="square"
+    style="transform:scale({value.current})"
+  >
   </div>
-  <button class="add" onclick={addNumbers}>Add number</button>
-
+  <button onclick={tweenValue}>Start</button>
 </div>
 
 <style>
-  .element {
-    width:100%;
-    padding: 10px;
-    margin:5px
+  .square {
+    display: block;
+    background:red;
+    width:100px;
+    height:100px
   }
 </style>
